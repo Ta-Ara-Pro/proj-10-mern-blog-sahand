@@ -20,7 +20,7 @@ const app = express(); //create the application
 app.use(express.json()); //allow to send json file to the backend
 
 app.listen(3000, () => {
-    console.log('Server is running at port 3000')
+    console.log('Server is running at port 3000', 'http://localhost:3000',)
 })
 
 app.use('/api/user', userRouter)
