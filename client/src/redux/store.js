@@ -14,7 +14,7 @@ const persistConfig = {
 }
  
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer) //Wraps reducer to enable persistence
 
 export const store = configureStore({
     reducer: persistedReducer,
