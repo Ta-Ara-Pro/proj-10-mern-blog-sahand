@@ -21,7 +21,6 @@ const Dashboard = () => {
       </div>
 
       {tab === 'profile' && <DashProfile /> }
-      bashgorad
       
     </div>
   )
