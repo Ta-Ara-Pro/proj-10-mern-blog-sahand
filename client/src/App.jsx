@@ -13,7 +13,7 @@ import PrivateRoute from './components/PrivateRoute'
 const App = () => {
   return (
     <BrowserRouter>
-    <Header />
+      <Header />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<About />} />
@@ -21,9 +21,9 @@ const App = () => {
         <Route path='/sign-in' element={<Signin />} />
 
         <Route element={<PrivateRoute />}>
-        <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/dashboard' element={<Dashboard />} />
         </Route>
-        
+
         <Route path='/projects' element={<Projects />} />
 
       </Routes>
