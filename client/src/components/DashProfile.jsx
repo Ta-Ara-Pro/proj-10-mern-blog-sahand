@@ -5,10 +5,11 @@ import { updateSuccess, updateFailure, updateStart, signoutSuccess } from '../re
 import { useDispatch } from 'react-redux'
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
 import { deleteUserStart, deleteUserSuccess, deleteUserFailure } from '../redux/user/userSlice'
+import {Link} from 'react-router-dom'
 import axios from 'axios';
 
 const DashProfile = () => {
-  const { currentUser, error } = useSelector(state => state.user)
+  const { currentUser, error, loading } = useSelector(state => state.user)
   const [imageFile, setImageFile] = useState(null)
   const [imageFileUrl, setImageFileUrl] = useState(null)
 
@@ -138,7 +139,7 @@ const DashProfile = () => {
         method: 'DELETE'
       });
       const data = await res.json();
-      if (!res.ok){
+      if (!res.ok) {
         dispatch(deleteUserFailure(data.message))
       } else {
         dispatch(deleteUserSuccess(data))
@@ -150,17 +151,17 @@ const DashProfile = () => {
   // =================================================
   // SIGN OUT USER FUNCTION
   // =================================================
-  const handelSignout = async() => {
+  const handelSignout = async () => {
     try {
-    const res = await fetch('/api/user/signout', {
-      method: 'POST'
-    });
-    const data = await res.json();
-    if (!res.ok){
-      console.log(data.message)
-    } else {
-      dispatch(signoutSuccess())
-    }
+      const res = await fetch('/api/user/signout', {
+        method: 'POST'
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message)
+      } else {
+        dispatch(signoutSuccess())
+      }
     } catch (error) {
       console.log(error.message)
     }
@@ -176,13 +177,23 @@ const DashProfile = () => {
           <img src={imageFileUrl || currentUser.profilePicture} alt='user'
             className='rounded-full w-full h-full object-cover border-8 border-[lightgray]' />
         </div>
+
         {imageFileUploadError && <Alert color='failure'> {imageFileUploadError}</Alert>}
         <TextInput type='text' id='username' placeholder='username' defaultValue={currentUser.username} onChange={handleChange} />
         <TextInput type='email' id='email' placeholder='email' defaultValue={currentUser.email} onChange={handleChange} />
         <TextInput type='password' id='password' placeholder='password' onChange={handleChange} />
-        <Button type='submit' gradientDuoTone='purpleToBlue' outline>
-          Update
+
+        <Button type='submit' gradientDuoTone='purpleToBlue' outline disabled={loading}>
+          {loading ? 'Loading...' : 'Update'}
         </Button>
+
+        <Link to='/create-post'>
+          {currentUser.isAdmin && (
+            <Button type='button' gradientDuoTone='purpleToPink' className='w-full'>
+              Create Post</Button>
+          )}
+        </Link>
+
       </form>
       <div className='text-red-500 flex justify-between mt-4'>
         <span className='cursor-pointer' onClick={() => setShowModal(true)}>Delete Account</span>
