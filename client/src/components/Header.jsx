@@ -5,13 +5,34 @@ import { AiOutlineSearch } from 'react-icons/ai'
 import { FaMoon, FaSun } from 'react-icons/fa'
 import {useSelector, useDispatch} from 'react-redux'
 import { toggleTheme } from '../redux/theme/themeSlice'
+import { signoutSuccess } from '../redux/user/userSlice'
 
 
 const Header = () => {
     const path = useLocation().pathname; //get the current URL path
     const {currentUser} = useSelector(state => state.user) //get the current User
     const {theme} = useSelector(state => state.theme)
-    const dispathch = useDispatch();
+    const dispatch = useDispatch();
+
+  // =================================================
+  // SIGN OUT USER FUNCTION
+  // =================================================
+  const handelSignout = async() => {
+    try {
+    const res = await fetch('/api/user/signout', {
+      method: 'POST'
+    });
+    const data = await res.json();
+    if (!res.ok){
+      console.log(data.message)
+    } else {
+      dispatch(signoutSuccess())
+    }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
     return (
     <Navbar className='border-b-2'>
       <Link to='/' className='self-center whitespace-nowrap text-sm 
@@ -34,7 +55,7 @@ const Header = () => {
 
       <div className='flex gap-2 md:order-2'>
         <Button className='w-12 h-10 hidden sm:inline' color='gray' pill
-         onClick={() => dispathch(toggleTheme())}>
+         onClick={() => dispatch(toggleTheme())}>
           {theme === 'light' ?  <FaMoon /> : <FaSun/>}
            
         </Button>
@@ -51,7 +72,7 @@ const Header = () => {
                 </DropdownHeader>
                 <Link to={'/dashboard?tab=profile'}>
                 <DropdownItem>Profile</DropdownItem>
-                <DropdownItem>Sign out</DropdownItem>
+                <DropdownItem onClick={handelSignout}>Sign out</DropdownItem>
                 <DropdownDivider />
                 </Link>
 

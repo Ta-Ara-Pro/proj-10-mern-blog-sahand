@@ -1,7 +1,7 @@
 import { Alert, Button, Modal, TextInput } from 'flowbite-react'
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { updateSuccess, updateFailure, updateStart } from '../redux/user/userSlice'
+import { updateSuccess, updateFailure, updateStart, signoutSuccess } from '../redux/user/userSlice'
 import { useDispatch } from 'react-redux'
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
 import { deleteUserStart, deleteUserSuccess, deleteUserFailure } from '../redux/user/userSlice'
@@ -109,11 +109,11 @@ const DashProfile = () => {
       console.log(' request data:', JSON.stringify(formData))
       const data = await response.json()
       console.log('updated data:', data)
-      if (!data.ok) {
+      if (!response.ok) {
         dispatch(updateFailure(data.message))
         setUpdateUserError(`Failed to update user profile: ${data.message}`)
-        console.log('error updating user:', data.message)
-        console.log('failed data:', data)
+        // console.log('error updating user:', data.message)
+        // console.log('failed data:', data)
       } else {
         dispatch(updateSuccess(data))
         setUpdateUserSuccess("User's profile updated successfully")
@@ -147,6 +147,24 @@ const DashProfile = () => {
       dispatch(deleteUserFailure(error.message))
     }
   }
+  // =================================================
+  // SIGN OUT USER FUNCTION
+  // =================================================
+  const handelSignout = async() => {
+    try {
+    const res = await fetch('/api/user/signout', {
+      method: 'POST'
+    });
+    const data = await res.json();
+    if (!res.ok){
+      console.log(data.message)
+    } else {
+      dispatch(signoutSuccess())
+    }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
 
   return (
     <div className='max-w-lg mx-auto p-3 w-full'>
@@ -168,7 +186,7 @@ const DashProfile = () => {
       </form>
       <div className='text-red-500 flex justify-between mt-4'>
         <span className='cursor-pointer' onClick={() => setShowModal(true)}>Delete Account</span>
-        <span className='cursor-pointer'>Sign Out</span>
+        <span className='cursor-pointer' onClick={handelSignout}>Sign Out</span>
       </div>
       {updateUserSuccess && (
         <Alert color='success' className='mt-5'>{updateUserSuccess}</Alert>

@@ -1,5 +1,5 @@
 import express from 'express'
-import { deleteUser, test, updateUser } from '../controllers/user.controller.js';
+import { deleteUser, signout, test, updateUser } from '../controllers/user.controller.js';
 import { ImageUploader, uploadMiddleware } from '../controllers/imageUpload.controller.js';
 import { verifyToken } from '../utils/verifyUser.js';
 
@@ -11,5 +11,6 @@ router.put('/update/:userId',verifyToken, updateUser )
 
 router.post('/cloudinary', uploadMiddleware, ImageUploader); 
 router.delete('/delete/:userId',verifyToken, deleteUser)
+router.post('/signout', signout)
 
 export default router;
