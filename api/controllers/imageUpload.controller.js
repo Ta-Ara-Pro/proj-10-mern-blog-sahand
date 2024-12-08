@@ -16,7 +16,8 @@ export const ImageUploader = async (req, res, next) => {
     const uniqueFilename = req.body.public_id; // Use the filename generated on the frontend
     
     const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: 'user-profile-image', // Optional: Organize files in folders
+      // folder: 'user-profile-image', 
+      // Optional: Organize files in folders
       public_id: uniqueFilename,
     });
 
