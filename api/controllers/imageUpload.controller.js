@@ -11,6 +11,11 @@ export const ImageUploader = async (req, res, next) => {
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded!' });
     }
+    // Check if a file format is acceptable
+    const allowedFormats = ['image/jpeg', 'image/png', 'image/jpg'];
+    if (!allowedFormats.includes(req.file.mimetype)) {
+      return res.status(400).json({ error: 'Invalid file format! Only jpg, png, and jpeg are allowed.' });
+    }
 
     // Upload to Cloudinary
     const uniqueFilename = req.body.public_id; // Use the filename generated on the frontend

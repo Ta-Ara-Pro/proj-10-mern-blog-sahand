@@ -10,7 +10,3 @@ cloudinary.config({
 })
 
 export default cloudinary;
-// module.exports= cloudinary;
-// (async function)() {
-//     const results = awit cloudinary.uploader.uploade('')
-// }
