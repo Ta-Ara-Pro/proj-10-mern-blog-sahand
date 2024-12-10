@@ -73,6 +73,34 @@ if (!req.user.isAdmin || req.user.id !== req.params.userId){
 }
 }
 
+export const updatepost = async(req, res, next) => {
+    if(!req.user.isAdmin || req.user.id !== req.params.userId){
+        return next(errorHandler(403, 'You are not allowed to update this post!'))
+    }
+    if(!req.body.title || !req.body.content){
+        return next(errorHandler(400,'Please provide all required fields'))
+    }
+    const postId = req.params.postId;
+    try {
+        const updatedPost = await Post.findByIdAndUpdate(
+            postId,
+            {
+                $set: {
+                    title: req.body.title,
+                    content: req.body.content,
+                    category: req.body.category,
+                    image: req.body.image,
+                }
+            }
+            , {new: true}
+
+        )
+        res.status(200).json(updatedPost)
+    } catch (error) {
+        next(error)
+    }
+}
+
 
 
   //The req.query object in the backend will contain:
