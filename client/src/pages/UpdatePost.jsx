@@ -11,7 +11,8 @@ const UpdatePost = () => {
   const navigate = useNavigate()
   const {postId} = useParams()
   const {currentUser} = useSelector(state => state.user)
-  console.log('formData:', formData)
+  console.log('formData:', formData._id)
+  console.log('postId:', postId)
 
   // =================================================
   // FETCHING POST FUNCTIOIN
@@ -98,7 +99,7 @@ const UpdatePost = () => {
 
     e.preventDefault();
     try {
-      const res = await fetch(`/api/post/update/${formData._id}/${currentUser._id}`, {
+      const res = await fetch(`/api/post/update/${postId}/${currentUser._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
