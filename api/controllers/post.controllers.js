@@ -101,6 +101,8 @@ export const updatepost = async(req, res, next) => {
 
 
 
+
+
   //The req.query object in the backend will contain:
 //   {
 //     "startIndex": "0",
