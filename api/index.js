@@ -7,6 +7,8 @@ import postRoutes from './routes/post.routes.js'
 import cookieParser from 'cookie-parser';
 import commentRoutes from './routes/comment.routes.js'
 
+import path from 'path';
+
 // import cors from 'cors'; 
 // Import CORS middleware
 
@@ -20,6 +22,8 @@ mongoose
     }).catch((err) => {
         console.log({'Mongodb connection error': err})
     })
+
+    const __dirname = path.resolve(); //get directory of the place where the application is available
 
 const app = express(); //create the application
 
@@ -40,6 +44,14 @@ app.use('/api/user', userRouter)
 app.use('/api/auth', authRoutes)
 app.use('/api/post', postRoutes)
 app.use('/api/comment', commentRoutes)
+
+app.use(express.static(path.join(__dirname, '/client/dist')))
+//this is going to find the folder and run the index.html file
+
+app.get('*', (req, res => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'))
+}))
+
 
 // a middleware to handle errors more easily
 app.use((err, req, res, next) => { 
