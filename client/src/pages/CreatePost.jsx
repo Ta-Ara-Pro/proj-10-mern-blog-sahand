@@ -84,6 +84,7 @@ const CreatePost = () => {
       if (res.ok) {
         console.log('data:',data.slug)
         setPublishErro(null)
+        setFormData({})
         navigate(`/post/${data.slug}`)
       }
     } catch (error) {

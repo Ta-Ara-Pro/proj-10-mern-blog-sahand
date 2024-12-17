@@ -42,6 +42,10 @@ export const getposts = async(req, res, next) => {
         .skip(startIndex)
         .limit(limit)
 
+      
+        // const post = await Post.findById(req.params?.postId)
+       
+
         const totalPosts =  await Post.countDocuments();
 
         const now = new Date()
@@ -53,13 +57,21 @@ export const getposts = async(req, res, next) => {
         const lastMonthPosts = await Post.countDocuments(
             {createdAt: {$gte: oneMonthAgo}}
         );
-        res.status(200).json({
+        res.status(200).json({ 
             posts,totalPosts,lastMonthPosts
         })
     } catch (error) {
         next(error)
     }
 }
+
+// export const getpost = async (req, res, next) => {
+//     try {
+        
+//     } catch (error) {
+        
+//     }
+// }
 
 export const deletepost = async(req, res, next) => {
 if (!req.user.isAdmin || req.user.id !== req.params.userId){

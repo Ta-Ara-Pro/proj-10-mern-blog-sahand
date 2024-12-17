@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Avatar, Button, Dropdown, DropdownDivider, DropdownHeader, DropdownItem, Navbar, TextInput } from 'flowbite-react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { FaMoon, FaSun } from 'react-icons/fa'
 import {useSelector, useDispatch} from 'react-redux'
@@ -13,6 +13,23 @@ const Header = () => {
     const {currentUser} = useSelector(state => state.user) //get the current User
     const {theme} = useSelector(state => state.theme)
     const dispatch = useDispatch();
+
+    const location = useLocation()
+    const [searchTerm, setSearchTerm ] = useState('')
+    // console.log("Initial searchTerm:", searchTerm);
+    // console.log("location.search:", location.search);
+  
+    useEffect(() => {
+      const urlParams = new URLSearchParams(location.search);
+      const searchTermFromUrl = urlParams.get('searchTerm');
+      // console.log("Extracted searchTermFromUrl:", searchTermFromUrl);
+  
+      if (searchTermFromUrl) {
+        setSearchTerm(searchTermFromUrl);
+      }
+    }, [location.search]);
+
+
 
   // =================================================
   // SIGN OUT USER FUNCTION
@@ -32,6 +49,18 @@ const Header = () => {
       console.log(error.message)
     }
   }
+  // =================================================
+  // SEARCH QUERY  FUNCTIONS
+  // =================================================
+  const navigate = useNavigate();
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set('searchTerm', searchTerm)
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`)
+  }
 
     return (
     <Navbar className='border-b-2'>
@@ -41,12 +70,14 @@ const Header = () => {
       via-purple-500 to-pink-500 rounded-lg text-white'>Tara's</span>Blog
       </Link>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <TextInput 
         type='text'
         placeholder='Search'
         rightIcon={AiOutlineSearch}
         className='hidden lg:inline' //in large screen and above is visible by setting `lg:inline` and on smaller screens is hidden
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
         />
       </form>
       <Button className='w-12 h-18 lg:hidden' color='gray' pill>

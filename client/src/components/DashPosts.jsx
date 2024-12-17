@@ -69,7 +69,7 @@ const DashPosts = () => {
     }
   }
 
-
+console.log('post id:', userPosts.map((post) => post._id))
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3
     
