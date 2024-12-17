@@ -17,13 +17,13 @@ dotenv.config();
 mongoose
     .connect(
         process.env.MONGO_URI
-    ).then(() => { 
+    ).then(() => {
         console.log('Mongodb is connected')
     }).catch((err) => {
-        console.log({'Mongodb connection error': err})
+        console.log({ 'Mongodb connection error': err })
     })
 
-    const __dirname = path.resolve(); //get directory of the place where the application is available
+const __dirname = path.resolve(); //get directory of the place where the application is available
 
 const app = express(); //create the application
 
@@ -54,7 +54,7 @@ app.get('*', (req, res => {
 
 
 // a middleware to handle errors more easily
-app.use((err, req, res, next) => { 
+app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
     const message = err.message || 'Internal Server Error';
     res.status(statusCode).json({
@@ -63,4 +63,3 @@ app.use((err, req, res, next) => {
         message
     });
 });
-   
