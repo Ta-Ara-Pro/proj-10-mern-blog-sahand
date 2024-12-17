@@ -14,5 +14,6 @@ export default defineConfig({
   plugins: [react()],
   build: {
     chunkSizeWarningLimit: 1000, // Adjust warning limit to 1 MB
+    outDir: 'client/dist',
   },
 })
