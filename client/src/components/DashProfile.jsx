@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux'
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
 import { deleteUserStart, deleteUserSuccess, deleteUserFailure } from '../redux/user/userSlice'
 import {Link} from 'react-router-dom'
-import axios from 'axios';
 
 const DashProfile = () => {
   const { currentUser, error, loading } = useSelector(state => state.user)

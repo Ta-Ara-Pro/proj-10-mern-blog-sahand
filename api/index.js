@@ -9,9 +9,6 @@ import commentRoutes from './routes/comment.routes.js'
 
 import path from 'path';
 
-// import cors from 'cors'; 
-// Import CORS middleware
-
 dotenv.config();
 
 mongoose
@@ -23,18 +20,14 @@ mongoose
         console.log({ 'Mongodb connection error': err })
     })
 
-const __dirname = path.resolve(); //get directory of the place where the application is available
+// const __dirname = path.resolve();
+ //get directory of the place where the application is available
 
 const app = express(); //create the application
 
 app.use(express.json()); //allow to send json file to the backend
 app.use(cookieParser());
 
-// app.use(cors({
-//     origin: 'http://localhost:5173', // Replace with your frontend origin
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-//     credentials: true, // Allow cookies if needed
-//   }));
 
 app.listen(3000, () => {
     console.log('Server is running at port 3000', 'http://localhost:3000',)
@@ -45,12 +38,12 @@ app.use('/api/auth', authRoutes)
 app.use('/api/post', postRoutes)
 app.use('/api/comment', commentRoutes)
 
-app.use(express.static(path.join(__dirname, '/client/dist')))
+// app.use(express.static(path.join(__dirname, '/client/dist')));
 //this is going to find the folder and run the index.html file
 
-app.get('*', (req, res => {
-    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'))
-}))
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+//   });
 
 
 // a middleware to handle errors more easily
